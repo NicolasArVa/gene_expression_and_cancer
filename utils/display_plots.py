@@ -1,13 +1,17 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.cm import get_cmap
 from sklearn.preprocessing import LabelEncoder
+import seaborn as sns
 
 def plot(embeddings, labels=None, title=''):
     # Create color mapping
     if labels is not None:
         unique_labels = np.unique(labels)
-        color_map = get_cmap('viridis', len(unique_labels))
+
+        color_palette = sns.color_palette('deep', 8)
+        colors = [color_palette[x] if x >= 0
+                  else (0.5, 0.5, 0.5)
+                  for x in range(len(unique_labels))]
 
         # Plot each label group separately for better legend
         for i, label in enumerate(unique_labels):        
@@ -21,7 +25,7 @@ def plot(embeddings, labels=None, title=''):
             plt.scatter(
                 points[:, 0], 
                 points[:, 1], 
-                color=color_map(i),
+                color=colors[i],
                 label=label,
                 s=5
             )
